@@ -21,19 +21,22 @@ class AuthController extends Controller
             return response()->json(["message" => "User sudah terdaftar"], 400);
         }
         $userData = Admin::create($request->all());
+        
         return response()->json($userData, 201);
     }
 
     function login(Request $request) {
+        $request->validate([
+            "email"=>"required",
+            "password"=>"required"
+        ]);
+
         $user = Admin::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(["message" => "Email atau Password salah"], 401);
         }
-        // $password = Hash::check($request->password, $user->password);
-        // if (!$password) {
-        //     return response()->json(["message" => "Email atau Password salah"], 404);
-        // }
+        $token = $user->createToken('secretkey')->plainTextToken;
 
-        return response()->json(["token"=>"JWT nanti disini...."], 200);
+        return response()->json(["token"=>$token], 200);
     }
 }
