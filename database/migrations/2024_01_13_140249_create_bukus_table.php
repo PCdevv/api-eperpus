@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('bukus', function (Blueprint $table) {
             $table->unsignedBigInteger('id_buku')->autoIncrement();
             $table->integer('isbn');
+            $table->string('kode_buku');
             $table->string('judul_buku');
             $table->year('tahun_terbit');
             $table->string('foto_cover');
+            $table->string('file_buku');
             $table->integer('stok_buku');
             $table->integer('jumlah_halaman');
             $table->unsignedBigInteger('id_pengarang')->nullable();
