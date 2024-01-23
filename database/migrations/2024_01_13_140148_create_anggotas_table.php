@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('anggotas', function (Blueprint $table) {
             $table->unsignedBigInteger('id_anggota')->autoIncrement();
-            $table->string('no_anggota');
-            $table->integer('no_telp');
+            $table->string('foto_profil')->nullable();
+            $table->string('no_anggota')->nullable();
+            $table->integer('no_telp')->nullable();
+            $table->string('nik')->nullable();
             $table->string('nama_lengkap');
-            $table->string('nik');
             $table->string('email');
             $table->string('password');
+            $table->boolean('verified')->default(false);
             $table->enum('kategori_anggota', ['Pelajar', 'Guru', 'Umum']);
         });
     }

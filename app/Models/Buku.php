@@ -9,6 +9,9 @@ class Buku extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public $timestamps = false;
+    protected $primaryKey = 'id_buku';
+
     public function pengarang()
     {
         return $this->belongsTo(Pengarang::class, 'id_pengarang');

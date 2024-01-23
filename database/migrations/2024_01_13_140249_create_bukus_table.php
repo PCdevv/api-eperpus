@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bukus', function (Blueprint $table) {
             $table->unsignedBigInteger('id_buku')->autoIncrement();
-            $table->integer('isbn');
+            $table->string('isbn')->unique();
             $table->string('kode_buku');
             $table->string('judul_buku');
             $table->year('tahun_terbit');
