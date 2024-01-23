@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\IndexControler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,8 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/auth/register/admin', [AuthController::class, 'register']);
-Route::post('/auth/login/admin', [AuthController::class, 'login']);
+Route::get('/index', [IndexControler::class, 'index']);
+
+Route::post('/auth/register', [AuthController::class, 'register']);
+
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/login/admin', [AuthController::class, 'login_admin']);
+Route::post('/auth/login/pustakawan', [AuthController::class, 'login_pustakawan']);
 
 // /anggota
 // /anggota/tambah
@@ -33,6 +39,10 @@ Route::post('/auth/login/admin', [AuthController::class, 'login']);
 
 
 Route::get('/buku', [BukuController::class, 'index']);
+Route::get('/buku/{id_buku}', [BukuController::class, 'show']);
+Route::post('/buku', [BukuController::class, 'store']);
+Route::patch('/buku/{id_buku}', [BukuController::class, 'update']);
+Route::delete('/buku/{buku}', [BukuController::class, 'destroy']);
     // /buku
     // /buku/{kategori}
     // /buku/lihat/:id

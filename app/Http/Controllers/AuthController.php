@@ -3,32 +3,72 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Anggota;
+use App\Models\Pustakawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
 
-    function register(Request $request) {
+    function register(Request $request)
+    {
         $request->validate([
-            "email"=>"required",
-            "password"=>"required",
-            "confirm_password"=>"required"
+            // "no_anggota" => "required",
+            // "no_telp" => "required",
+            // "nik" => "required",
+            "nama_lengkap" => "required",
+            "email" => "required",
+            "password" => "required",
+            "kategori_anggota" => "required"
         ]);
 
-        $userExist = Admin::where('email', $request->email)->first();
+        $userExist = Anggota::where('email', $request->email)->first();
         if ($userExist) {
             return response()->json(["message" => "User sudah terdaftar"], 400);
         }
-        $userData = Admin::create($request->all());
-        
+        $userData = Anggota::create($request->all());
+
         return response()->json($userData, 201);
     }
 
-    function login(Request $request) {
+    function login(Request $request)
+    {
         $request->validate([
-            "email"=>"required",
-            "password"=>"required"
+            "email" => "required",
+            "password" => "required"
+        ]);
+
+        $user = Anggota::where('email', $request->email)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(["message" => "Email atau Password salah"], 401);
+        }
+        $token = $user->createToken('secretkey')->plainTextToken;
+
+        return response()->json(["token" => $token], 200);
+    }
+
+    function login_pustakawan(Request $request)
+    {
+        $request->validate([
+            "email" => "required",
+            "password" => "required"
+        ]);
+
+        $user = Pustakawan::where('email', $request->email)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(["message" => "Email atau Password salah"], 401);
+        }
+        $token = $user->createToken('secretkey')->plainTextToken;
+
+        return response()->json(["token" => $token], 200);
+    }
+
+    function login_admin(Request $request)
+    {
+        $request->validate([
+            "email" => "required",
+            "password" => "required"
         ]);
 
         $user = Admin::where('email', $request->email)->first();
@@ -37,6 +77,6 @@ class AuthController extends Controller
         }
         $token = $user->createToken('secretkey')->plainTextToken;
 
-        return response()->json(["token"=>$token], 200);
+        return response()->json(["token" => $token], 200);
     }
 }

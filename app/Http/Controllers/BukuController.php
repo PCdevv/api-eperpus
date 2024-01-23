@@ -21,7 +21,7 @@ class BukuController extends Controller
 
         return response()->json($bukus, 200);
     }
-    function addBuku(Request $request)
+    function store(Request $request)
     {
         $request->validate([
             'isbn' => 'required',
@@ -34,7 +34,6 @@ class BukuController extends Controller
             'id_pengarang' => 'required',
             'id_penerbit' => 'required',
             'id_kategori' => 'required',
-            'id_subkategori' => 'required',
             'id_rak' => 'required'
         ]);
         $buku_isbn = Buku::where('isbn', $request->isbn)->first();
@@ -46,4 +45,48 @@ class BukuController extends Controller
         Buku::create($request->all());
         return response()->json(['message' => 'Buku berhasil dibuat'], 201);
     }
+    function show($id_buku)
+    {
+        $buku = Buku::where('id_buku', $id_buku)->with('pengarang', 'penerbit', 'rak', 'kategori')->first();
+        if (empty($buku)) {
+            return response()->json(['message' => 'Buku tidak ditemukan'], 404);
+        }
+        return response()->json($buku, 200);
+    }
+    function update(Request $request, $id_buku)
+    {
+        $request->validate([
+            'isbn' => 'required',
+            'kode_buku' => 'required',
+            'judul_buku' => 'required',
+            'tahun_terbit' => 'required',
+            'foto_cover' => 'required',
+            'stok_buku' => 'required',
+            'jumlah_halaman' => 'required',
+            'id_pengarang' => 'required',
+            'id_penerbit' => 'required',
+            'id_kategori' => 'required',
+            'id_rak' => 'required'
+        ]);
+        $buku = Buku::where('id_buku', $id_buku)->first();
+        if (empty($buku)) {
+            return response()->json(['message' => 'Buku tidak ditemukan'], 404);
+        }
+        $buku->update($request->all());
+        return response()->json(['message' => 'Buku berhasil diedit'], 200);
+    }
+    function destroy(Buku $buku)
+    {
+        // $buku = Buku::where('id_buku', $id_buku)->first();
+        // if (empty($buku)) {
+        //     return response()->json(['message' => 'Buku tidak ditemukan'], 404);
+        // }
+        $buku->delete();
+        return response()->json(['message' => 'Buku berhasil dihapus'], 200);
+    }
+
+    // function search(Request $request)
+    // {
+    // }
+
 }
