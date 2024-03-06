@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Wishlist extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_wishlist';
+    protected $guarded = ['id_wishlist'];
+    public $timestamps = false;
 }

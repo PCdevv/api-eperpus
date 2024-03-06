@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Pustakawan extends Model
+class Pustakawan extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
+    protected $primaryKey = 'id_pustakawan';
+    protected $guarded = ['id_pustakawan'];
+    public $timestamps = false;
 }

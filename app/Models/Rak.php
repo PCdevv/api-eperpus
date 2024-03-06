@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rak extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $guarded = ['id_rak'];
     protected $primaryKey = 'id_rak';
+    public $timestamps = false;
 }

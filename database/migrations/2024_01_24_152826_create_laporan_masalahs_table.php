@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('laporan_masalahs', function (Blueprint $table) {
             $table->unsignedBigInteger('id_laporan_masalah')->autoIncrement();
             $table->text('deskripsi_laporan');
-            $table->string('foto');
+            $table->string('foto')->default(null)->nullable();
             $table->unsignedBigInteger('id_anggota')->nullable();
 
-            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas');
+            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas')->onDelete('restrict');
         });
     }
 
