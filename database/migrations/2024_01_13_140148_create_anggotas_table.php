@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_anggota')->autoIncrement();
             $table->string('foto_profil')->nullable();
             $table->string('no_anggota')->nullable();
-            $table->integer('no_telp')->nullable();
+            $table->string('no_telp')->nullable();
             $table->string('nik')->nullable();
             $table->string('nama_lengkap');
             $table->string('email');

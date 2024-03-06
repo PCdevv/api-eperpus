@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_buku')->nullable();
             $table->unsignedBigInteger('id_anggota')->nullable();
 
-            $table->foreign('id_buku')->references('id_buku')->on('bukus');
-            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas');
+            $table->foreign('id_buku')->references('id_buku')->on('bukus')->onDelete('restrict');
+            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas')->onDelete('restrict');
         });
     }
 

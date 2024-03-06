@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Buku extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $guarded = ['id_buku'];
     public $timestamps = false;
     protected $primaryKey = 'id_buku';
+    protected $attributes = [
+        'file_buku' => null,
+        'id_subkategori' => null,
+    ];
 
     public function pengarang()
     {
@@ -27,5 +31,13 @@ class Buku extends Model
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
+    public function subkategori()
+    {
+        return $this->belongsTo(Subkategori::class, 'id_subkategori');
+    }
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'id_buku');
     }
 }

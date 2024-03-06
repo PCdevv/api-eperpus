@@ -15,9 +15,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_umpan_balik')->autoIncrement();
             $table->string('subjek');
             $table->text('isi');
-            $table->string('lampiran')->nullable();
-            $table->string('nama')->nullable();
-            $table->string('email')->nullable();
+            $table->string('lampiran')->default(null)->nullable();
+            $table->string('nama')->default(null)->nullable();
+            $table->string('email')->default(null)->nullable();
         });
     }
 

@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dendas', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_buku')->autoIncrement();
+            $table->unsignedBigInteger('id_denda')->autoIncrement();
             $table->decimal('jumlah_denda');
             $table->enum('status', ['Lunas', 'Belum dibayar'])->default('Belum dibayar');
             $table->unsignedBigInteger('id_history')->nullable();
             $table->unsignedBigInteger('id_anggota')->nullable();
 
-            $table->foreign('id_history')->references('id_history')->on('histories');
-            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas');
+            $table->foreign('id_history')->references('id_history')->on('histories')->onDelete('restrict');
+            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas')->onDelete('restrict');
         });
     }
 

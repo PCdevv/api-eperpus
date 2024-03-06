@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class LaporanMasalah extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_laporan_masalah';
     protected $guarded = ['id_laporan_masalah'];
     public $timestamps = false;
 
     public function pelapor()
     {
-        $this->belongsTo(Anggota::class, 'id_anggota');
+        return $this->belongsTo(Anggota::class, 'id_anggota');
     }
 }

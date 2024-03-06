@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->unsignedBigInteger('id_history')->autoIncrement();
-            $table->timestamp('waktu_peminjaman')->default(now());
-            $table->timestamp('waktu_pengembalian');
+            $table->timestamp('waktu_peminjaman');
+            $table->timestamp('waktu_pengembalian')->nullable();
             $table->timestamp('batas_pengembalian');
+            $table->boolean('selesai_dibaca')->default(false)->nullable();
+            $table->enum('jenis_buku', ['Fisik', 'Digital']);
             $table->unsignedBigInteger('id_anggota')->nullable();
             $table->unsignedBigInteger('id_buku')->nullable();
 
-            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas');
-            $table->foreign('id_buku')->references('id_buku')->on('bukus');
+            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas')->onDelete('restrict');
+            $table->foreign('id_buku')->references('id_buku')->on('bukus')->onDelete('restrict');
         });
     }
 

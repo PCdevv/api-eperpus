@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_subkategori');
             $table->unsignedBigInteger('id_kategori')->nullable();
 
-            $table->foreign('id_kategori')->references('id_kategori')->on('kategoris');
+            $table->foreign('id_kategori')->references('id_kategori')->on('kategoris')->onDelete('restrict');
         });
     }
 
