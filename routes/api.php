@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::get('/buku', [BukuController::class, 'index']);
 Route::get('/bukus', [BukuController::class, 'index_tabel']);
 Route::get('/buku/{id_buku}', [BukuController::class, 'show']);
