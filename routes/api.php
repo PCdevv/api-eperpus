@@ -18,18 +18,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/register/pustakawan', [AuthController::class, 'register_pustakawan']);
-
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/login/admin', [AuthController::class, 'login_admin']);
 Route::post('/auth/login/pustakawan', [AuthController::class, 'login_pustakawan']);
-
 Route::middleware('auth:sanctum', 'pustakawan')->group(function () {
     Route::get('/laporan-masalah', [LaporanMasalahController::class, 'index']);
     Route::get('/umpan-balik', [UmpanBalikController::class, 'index']);
@@ -39,11 +35,8 @@ Route::middleware('auth:sanctum', 'pustakawan')->group(function () {
 // /anggota/tambah
 // /anggota/edit
 // /anggota/hapus
-
 // /auth/login
 // /auth/register
-
-
 Route::get('/buku', [BukuController::class, 'index']);
 Route::get('/buku/{id_buku}', [BukuController::class, 'show']);
 Route::post('/buku', [BukuController::class, 'store']);
@@ -56,7 +49,6 @@ Route::delete('/buku/{buku}', [BukuController::class, 'destroy']);
     // /buku/tambah
     // /buku/edit
     // /buku/hapus
-
     // /riwayat/peminjaman
     // /riwayat/denda
     // /riwayat/aktifitas/admin
