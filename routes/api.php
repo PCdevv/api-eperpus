@@ -25,13 +25,23 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/', function(){
+    return response()->json([
+        'success' => true,
+        'code' => 200,
+        'message' => 'Horeee!'
+    ], 200);
+});
+
 Route::get('/buku', [BukuController::class, 'index']);
-Route::get('/bukus', [BukuController::class, 'index_tabel']);
 Route::get('/buku/{id_buku}', [BukuController::class, 'show']);
-Route::post('/buku', [BukuController::class, 'store']);
-Route::get('/buku-create', [BukuController::class, 'create']);
-Route::patch('/buku/{id_buku}', [BukuController::class, 'update']);
-Route::delete('/buku/{id_buku}', [BukuController::class, 'destroy']);
+Route::get('/buku-filter', [BukuController::class, 'create']);
+
+Route::get('/bukus', [BukuController::class, 'index_tabel']);
+Route::post('/bukus', [BukuController::class, 'store']);
+Route::patch('/bukus/{id_buku}', [BukuController::class, 'update']);
+Route::delete('/bukus/{id_buku}', [BukuController::class, 'destroy']);
 
 Route::get('/search-no-anggota/{no_anggota}', [TransaksiBukuController::class, 'anggota_by_no']);
 Route::get('/search-kode-buku/{kode_buku}', [TransaksiBukuController::class, 'buku_by_kode']);
@@ -41,23 +51,6 @@ Route::post('/kunjungan', [KunjunganController::class, 'index']);
 Route::post('/umpan-balik', [UmpanBalikController::class, 'store']);
 Route::post('/buku-usulan', [BukuUsulanController::class, 'store']);
 
-
-// Route::post('/konfigurasi/penerbit', [KonfigurasiController::class, 'storePenerbit']);
-// Route::patch('/konfigurasi/penerbit', [KonfigurasiController::class, 'updatePenerbit']);
-// Route::delete('/konfigurasi/penerbit', [KonfigurasiController::class, 'destroyPenerbit']);
-
-// Route::post('/konfigurasi/pengarang', [KonfigurasiController::class, 'storePengarang']);
-// Route::patch('/konfigurasi/pengarang', [KonfigurasiController::class, 'updatePengarang']);
-// Route::delete('/konfigurasi/pengarang', [KonfigurasiController::class, 'destroyPengarang']);
-
-// Route::post('/konfigurasi/kategori', [KonfigurasiController::class, 'storeKategori']);
-// Route::patch('/konfigurasi/kategori', [KonfigurasiController::class, 'updateKategori']);
-// Route::delete('/konfigurasi/kategori', [KonfigurasiController::class, 'destroyKategori']);
-
-// Route::post('/konfigurasi/rak', [KonfigurasiController::class, 'storeRak']);
-// Route::patch('/konfigurasi/rak', [KonfigurasiController::class, 'updateRak']);
-// Route::delete('/konfigurasi/rak', [KonfigurasiController::class, 'destroyRak']);
-
 Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -65,14 +58,16 @@ Route::post('/auth/login/admin', [AuthController::class, 'login_admin']);
 Route::post('/auth/login/pustakawan', [AuthController::class, 'login_pustakawan']);
 
 Route::middleware('auth:sanctum', 'anggota')->group(function () {
-    Route::post('/pinjam/digital/{id_buku}', [BukuController::class, 'peminjaman_digital']);
-    Route::post('/kembali/digital/{id_buku}', [BukuController::class, 'pengembalian_digital']);
+    Route::post('/pinjam/digital/{id_buku}', [MyController::class, 'peminjaman_digital']);
+    Route::post('/kembali/digital/{id_buku}', [MyController::class, 'pengembalian_digital']);
     Route::post('/selesai-baca/{id_buku}', [MyController::class, 'selesai_baca']);
-    Route::get('/profil', [MyController::class, 'profil']);
-    Route::get('/denda', [MyController::class, 'denda']);
-    Route::get('/buku-dipinjam', [MyController::class, 'dipinjam']);
+    Route::get('/my/profile', [MyController::class, 'profil']);
+    Route::get('/my/fine', [MyController::class, 'denda']);
+    Route::get('/my/loan', [MyController::class, 'dipinjam']);
 
     Route::post('/laporan-masalah', [LaporanMasalahController::class, 'store']);
+    Route::post('/umpan-balik', [UmpanBalikController::class, 'store']);
+    Route::post('/buku-usulan', [BukuUsulanController::class, 'store']);
 });
 
 Route::middleware('auth:sanctum', 'pustakawan')->group(function () {

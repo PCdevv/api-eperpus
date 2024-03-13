@@ -51,8 +51,8 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'code' => 201,
-            'message' => 'Register berhasil, silahkan login',
-            'data' => $anggota
+            'message' => 'Register berhasil, silahkan login'
+            // 'data' => $anggota
         ], 201);
     }
 

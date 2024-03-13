@@ -43,16 +43,17 @@ class MyController extends Controller
 
     function dipinjam(Request $request)
     {
+        $today = now();
         $id_anggota = $request->user()->id_anggota;
         $history = History::where([
             ['id_anggota', '=', $id_anggota],
-            ['waktu_pengembalian', '=', null],
+            ['waktu_pengembalian', '>', $today],
         ])->with('buku')->get();
         if (sizeof($history) === 0) {
             return response()->json([
                 'success' => true,
                 'code' => 200,
-                'message' => 'Anda belum pernah meminjam buku'
+                'message' => 'Tidak ada buku yang sedang dipinjam'
             ], 200);
         }
 
@@ -90,7 +91,11 @@ class MyController extends Controller
         }
         $data_history = History::create([
             "id_buku" => $request->id_buku,
-            'id_anggota' => $id_anggota
+            'id_anggota' => $id_anggota,
+            'waktu_peminjaman' => now(),
+            'waktu_pengembalian' => now()->addWeek(),
+            'batas_pengembalian' => now()->addWeek(),
+            'jenis_buku' => 'Digital'
         ]);
         return response()->json([
             'success' => true,
@@ -113,7 +118,8 @@ class MyController extends Controller
         $history = History::where([
             ['id_buku', '=', $request->id_buku],
             ['id_anggota', '=', $id_anggota],
-            ['waktu_pengembalian', '=', null]
+            ['jenis_buku', '=', 'Digital'],
+            // ['waktu_pengembalian', '=', null]
         ])->first();
         $history->waktu_pengembalian = now();
         $history->save();
@@ -126,18 +132,11 @@ class MyController extends Controller
     }
     function selesai_baca(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'id_buku' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return $validator->errors();
-        }
         $id_anggota = $request->user()->id_anggota;
         $history = History::where([
             ['id_buku', '=', $request->id_buku],
-            ['id_anggota', '=', $id_anggota],
-            ['waktu_pengembalian', '=', null]
+            ['id_anggota', '=', $id_anggota]
+            // ['waktu_pengembalian', '=', null]
         ])->first();
         $history->selesai_dibaca = true;
         $history->save();

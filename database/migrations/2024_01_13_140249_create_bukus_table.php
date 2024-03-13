@@ -28,11 +28,11 @@ return new class extends Migration
             $table->unsignedBigInteger('id_subkategori')->nullable();
             $table->unsignedBigInteger('id_rak')->nullable();
 
-            $table->foreign('id_pengarang')->references('id_pengarang')->on('pengarangs')->onDelete('restrict');
-            $table->foreign('id_penerbit')->references('id_penerbit')->on('penerbits')->onDelete('restrict');
-            $table->foreign('id_kategori')->references('id_kategori')->on('kategoris')->onDelete('restrict');
-            $table->foreign('id_subkategori')->references('id_subkategori')->on('subkategoris')->onDelete('restrict');
-            $table->foreign('id_rak')->references('id_rak')->on('raks')->onDelete('restrict');
+            $table->foreign('id_pengarang')->references('id_pengarang')->on('pengarangs')->onDelete('set null');
+            $table->foreign('id_penerbit')->references('id_penerbit')->on('penerbits')->onDelete('set null');
+            $table->foreign('id_kategori')->references('id_kategori')->on('kategoris')->onDelete('set null');
+            $table->foreign('id_subkategori')->references('id_subkategori')->on('subkategoris')->onDelete('set null');
+            $table->foreign('id_rak')->references('id_rak')->on('raks')->onDelete('set null');
         });
     }
 

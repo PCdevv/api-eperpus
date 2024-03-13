@@ -17,24 +17,33 @@ class BukuController extends Controller
 {
     function index(Request $request)
     {
-        $bukus = Buku::select('id_buku', 'judul_buku', 'id_pengarang', 'id_kategori', 'id_subkategori')->with('pengarang', 'kategori', 'subkategori', 'ulasan')->get();
-
-        if (!is_null($request->id_kategori)) {
-            $buku_filter = Buku::where('id_kategori', $request->id_kategori)->with('pengarang', 'penerbit', 'rak', 'kategori', 'subkategori', 'ulasan')->get();
-            if (sizeof($buku_filter) === 0) {
-                return response()->json([
-                    'success' => true,
-                    'code' => 404,
-                    'message' => 'Buku tidak ada',
-                    'data' => $buku_filter,
-                ], 404);
-            }
+        $bukus = Buku::with('kategori', 'subkategori', 'ulasan')->when($request->id_kategori, function ($q) use ($request) {
+            $q->where('id_kategori', $request->id_kategori);
+        })->get();
+        // if (!is_null($request->id_kategori)) {
+        //     $buku_filter = Buku::where('id_kategori', $request->id_kategori)->with('pengarang', 'penerbit', 'rak', 'kategori', 'subkategori', 'ulasan')->get();
+        //     if (sizeof($buku_filter) === 0) {
+        //         return response()->json([
+        //             'success' => true,
+        //             'code' => 404,
+        //             'message' => 'Buku tidak ada',
+        //             'data' => $buku_filter,
+        //         ], 404);
+        //     }
+        //     return response()->json([
+        //         'success' => true,
+        //         'code' => 200,
+        //         'message' => 'Data buku berhasil didapatkan',
+        //         'data' => $buku_filter,
+        //     ], 200);
+        // }
+        if (sizeof($bukus) == 0) {
             return response()->json([
                 'success' => true,
-                'code' => 200,
-                'message' => 'Data buku berhasil didapatkan',
-                'data' => $buku_filter,
-            ], 200);
+                'code' => 404,
+                'message' => 'Buku tidak ada',
+                'data' => $bukus,
+            ], 404);
         }
 
         return response()->json([
