@@ -12,6 +12,7 @@ use App\Http\Controllers\LaporanMasalahController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\PustakawanController;
 use App\Http\Controllers\TransaksiBukuController;
+use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\UmpanBalikController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::get('/buku', [BukuController::class, 'index']);
 Route::get('/bukus', [BukuController::class, 'index_tabel']);
 Route::get('/buku/{id_buku}', [BukuController::class, 'show']);
@@ -39,7 +41,7 @@ Route::get('/search-kode-buku/{kode_buku}', [TransaksiBukuController::class, 'bu
 Route::post('/kunjungan', [KunjunganController::class, 'index']);
 
 Route::post('/umpan-balik', [UmpanBalikController::class, 'store']);
-Route::post('/buku-usulan', [BukuUsulanController::class, 'store']);
+Route::post('/usulkan-buku', [BukuUsulanController::class, 'store']);
 
 
 // Route::post('/konfigurasi/penerbit', [KonfigurasiController::class, 'storePenerbit']);
@@ -68,6 +70,7 @@ Route::middleware('auth:sanctum', 'anggota')->group(function () {
     Route::post('/pinjam/digital/{id_buku}', [BukuController::class, 'peminjaman_digital']);
     Route::post('/kembali/digital/{id_buku}', [BukuController::class, 'pengembalian_digital']);
     Route::post('/selesai-baca/{id_buku}', [MyController::class, 'selesai_baca']);
+    Route::post('/ulasan', [UlasanController::class, 'store']);
     Route::get('/profil', [MyController::class, 'profil']);
     Route::get('/denda', [MyController::class, 'denda']);
     Route::get('/buku-dipinjam', [MyController::class, 'dipinjam']);

@@ -17,7 +17,7 @@ class BukuController extends Controller
 {
     function index(Request $request)
     {
-        $bukus = Buku::select('id_buku', 'judul_buku', 'id_pengarang', 'id_kategori', 'id_subkategori')->with('pengarang', 'kategori', 'subkategori', 'ulasan')->get();
+        $bukus = Buku::select('id_buku', 'judul_buku', 'foto_cover', 'id_pengarang', 'id_kategori', 'id_subkategori')->with('pengarang', 'kategori', 'subkategori', 'ulasan')->get();
 
         if (!is_null($request->id_kategori)) {
             $buku_filter = Buku::where('id_kategori', $request->id_kategori)->with('pengarang', 'penerbit', 'rak', 'kategori', 'subkategori', 'ulasan')->get();
@@ -158,6 +158,7 @@ class BukuController extends Controller
     function show($id_buku)
     {
         $buku = Buku::where('id_buku', $id_buku)->with('pengarang', 'penerbit', 'rak', 'kategori', 'subkategori', 'ulasan')->first();
+        $jumlah_ulasan = $buku->ulasan->count();
         if (empty($buku)) {
             return response()->json([
                 'success' => false,
@@ -165,6 +166,7 @@ class BukuController extends Controller
                 'message' => 'Buku tidak ditemukan'
             ], 404);
         }
+        $buku['jumlah_ulasan'] = $jumlah_ulasan;
         return response()->json([
             'success' => true,
             'code' => 200,

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('isbn')->unique();
             $table->string('kode_buku')->unique();
             $table->string('judul_buku');
+            $table->longText('sinopsis')->nullable();
             $table->year('tahun_terbit');
             $table->string('foto_cover');
             $table->string('file_buku')->nullable();

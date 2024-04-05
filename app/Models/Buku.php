@@ -40,4 +40,8 @@ class Buku extends Model
     {
         return $this->hasMany(Ulasan::class, 'id_buku');
     }
+    // public function jumlah_ulasan()
+    // {
+    //     return $this->ulasan()->count();
+    // }
 }
