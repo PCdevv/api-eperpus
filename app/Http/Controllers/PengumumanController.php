@@ -18,7 +18,7 @@ class PengumumanController extends Controller
     public function store(Request $request){
         $photo = $request->file('foto');
 
-        $path = $photo->storeAs('public/fotoPengumuman', uniqid().'.'.$photo->extension(),['disk'=> 'public']);
+        $path = $photo->storeAs('/app/public', uniqid().'.'.$photo->extension(),['disk'=> 'public']);
 
         $link = Storage::url($path);
 
@@ -45,15 +45,16 @@ class PengumumanController extends Controller
         }
         
 
-    public function update(Request $request, $id_pengumuman){
+    public function update(Request $request, Pengumuman $pengumuman){
         $pengumuman=Pengumuman::findOrFail($request->$id_pengumuman);
         $pengumuman->update([
-            'judul' => $request->judul,          
-            'isi' => $request->isi,    
+             $pengumuman->judul=> $request->judul,        
+            $pengumuman->isi=> $request->isi,             
+            $pengumuman->save(),    
         ]);
-        return response()->json([
-            'message' => 'Pengumuman berhasil diubah'
-        ]);
+       return response()->json([
+                'data' => $pengumuman
+    ]);
     }
 
     public function destroy(Pengumuman $pengumuman){
