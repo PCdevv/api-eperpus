@@ -92,6 +92,7 @@ class BukuController extends Controller
             'judul_buku' => 'required',
             'tahun_terbit' => 'required',
             'foto_cover' => 'required',
+            'file_buku' => 'required|file|max:2048',
             'stok_tersedia' => 'required',
             'stok_total' => 'required',
             'jumlah_halaman' => 'required',
